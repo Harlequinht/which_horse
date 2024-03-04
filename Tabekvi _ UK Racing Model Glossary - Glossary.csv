@@ -1,0 +1,122 @@
+Term,Meaning
+meeting_id,Meeting ID within system
+meeting_name,Racecourse name I.e. Ascot
+date,Date
+country_code,Country I.e. GBR
+event_number,Race number
+distance,Raw distance in yards
+distance_unit,Unit = yards
+distance_furlongs,Official distance in racecard
+distance_raw_furlongs,Raw distance in furlongs
+race_class,Race Class (1-7)
+race_class_normalised,"Race Type (handicap, maiden, listed, group etc.)"
+prize_money_currency,Prize money currency. I.e. GBP for £
+total_prize_money,Race prize money
+track_condition,Official going
+race_type,Flat or Jumps
+track_type,Turf (Grass) or AWT (All-Weather / Synthetic)
+barrier,Stall number the horse will start from
+number,Racecard number
+finish_position,Finishing position for race in question
+win_or_lose,Did the horse win or lose? (1 or 0)
+failed_to_finish_reason,If the horse failed to finish - why?
+margin,Distance horse was beaten. Horse win = blank
+gear,"Additional ""gear"" a horse was wearing (blinkers, cheekpieces, hood etc.)"
+jockey_allowance,"Whether the jockey was given an allowance for inexperience (0, 3, 5, 7)"
+jockey_allowance_unit,Allowance in llbs
+handicap_weight,Raw weight the horse has carried including jockey
+handicap_weight_unit,Weight in lbs
+jockey_id,Individual Jockey ID
+jockey_name,Jockey Name
+tainer_id,Individual Trainer ID
+trainer_name,Trainer Name
+dslr,Days since the horse last raced
+horse_id,Individual horse ID
+horse_name,Horse Name
+sire,Sire (dad) of horse
+dam,Dam (mum) of horse
+age,Age of horse
+birth_date,Date of birth of horse
+official rating,Official (published) rating
+wfa,"Weight For Age Allowance (If applicable, younger horses running against their elders will get an allowance)"
+weight_adjustment,"The weight the horse carries below ""top weight"" of 10-0. EA.g . horse with 9-8 will have 6 (lbs)"
+bet365_odds,n/a
+pmu_odds,n/a
+betfair_starting_price,Betfair Starting Price
+pre_race_master_rating_int,Master Rating shown in user interface
+pre_race_master_rating_symbol,Master Rating symbol if applicable
+post_race_master_rating_int,The subsequent performance rating the horse was given for the performance in the race in question
+post_race_master_rating_symbol,The symbol (if applicable) to go with the subsequent performance rating the horse was given for the performance in the race in question
+starting_price,Official Starting Price
+run_1_raw_post_race_rating_int,The most recent performance (most recent run) figure given to the horse
+run_1_raw_post_race_rating_symbol,Symbol for most recent run if applicable
+run_1_final_rating_int,"The most recent performance (most recent run) figure given to the horse adjusted for the weight carried in today's race (see ""weight_adjustment"")"
+run_1_race_type,Type of race the horse most recently ran in (FLAT or JUMP)
+run_1_race_class_normalised,Class of race the horse most recently ran in
+run_1_race_class,"Type of race the horse most recently ran in (handicap, maiden, listed, group etc.)"
+run_1_track_type,Turf (Grass) or AWT (All-Weather / Synthetic)
+run_1_win_lose,Win (1) or Lose (0)
+run_1_dsr,Days since Run 1
+run_2_raw_post_race_rating_int,See above comments for Run 1 etc.
+run_2_raw_post_race_rating_symbol,See above comments for Run 1 etc.
+run_2_final_rating_int,See above comments for Run 1 etc.
+run_2_race_type,See above comments for Run 1 etc.
+run_2_race_class,See above comments for Run 1 etc.
+run_2_race_class_normalised,See above comments for Run 1 etc.
+run_2_track_type,See above comments for Run 1 etc.
+run_2_win_lose,See above comments for Run 1 etc.
+run_2_dsr,Days since Run 2
+run_3_raw_post_race_rating_int,
+run_3_raw_post_race_rating_symbol,
+run_3_final_rating_int,
+run_3_race_type,
+run_3_race_class,
+run_3_race_class_normalised,
+run_3_track_type,
+run_3_win_lose,
+run_3_dsr,
+run_4_raw_post_race_rating_int,
+run_4_raw_post_race_rating_symbol,
+run_4_final_rating_int,
+run_4_race_type,
+run_4_race_class,
+run_4_race_class_normalised,
+run_4_track_type,
+run_4_win_lose,
+run_4_dsr,
+run_5_raw_post_race_rating_int,
+run_5_raw_post_race_rating_symbol,
+run_5_final_rating_int,
+run_5_race_type,
+run_5_race_class,
+run_5_race_class_normalised,
+run_5_track_type,
+run_5_win_lose,
+run_5_dsr,
+run_6_raw_post_race_rating_int,
+run_6_raw_post_race_rating_symbol,
+run_6_final_rating_int,
+run_6_race_type,
+run_6_race_class,
+run_6_race_class_normalised,
+run_6_track_type,
+run_6_win_lose,
+run_6_dsr,
+run_7_raw_post_race_rating_int,
+run_7_raw_post_race_rating_symbol,
+run_7_final_rating_int,
+run_7_race_type,
+run_7_race_class,
+run_7_race_class_normalised,
+run_7_track_type,
+run_7_win_lose,
+run_7_dsr,
+run_8_raw_post_race_rating_int,
+run_8_raw_post_race_rating_symbol,
+run_8_final_rating_int,
+run_8_race_type,
+run_8_race_class,
+run_8_race_class_normalised,
+run_8_track_type,
+run_8_win_lose,
+run_8_dsr,
