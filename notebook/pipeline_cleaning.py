@@ -41,6 +41,7 @@ def clean_data(df):
     df.drop(columns=['failed_to_finish_reason', 'birth_date'], inplace=True)
     return df
 
+
 def transforming_data(df):
     df['date'] = pd.to_datetime(df['date'])
     df.drop(columns=['jockey_id', 'tainer_id', 'margin', 'finish_position', 'event_number'], axis=1, inplace=True) # for now
