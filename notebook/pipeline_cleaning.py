@@ -31,13 +31,14 @@ def clean_data(df):
             'bet365_odds', 'pmu_odds', 'meeting_id', 'distance_raw_furlongs', 'number', 'horse_id', 'age', 'dam', 'sire'], inplace=True)
     df['gear'] = df['gear'].apply(lambda x: 0 if pd.isna(x) else 1)
     df = df[df['barrier'] <= 20]
-    # df['track_type'] = df['track_type'].apply(lambda x: 1 if x == 'TURF' else 0 if not pd.isna(x) else x)
+    df['win'] = df['win_or_lose'].apply(lambda x: 1 if x == 1 else 0 if not pd.isna(x) else x)
+    df['lose'] = df['win_or_lose'].apply(lambda x: 1 if x == 0 else 0 if not pd.isna(x) else x)
     df['failed_to_finish_reason'] = df['failed_to_finish_reason'].apply(lambda x: 0 if pd.isna(x) else 1)
     df['margin'] = df.apply(lambda row: row['distance'] if pd.isna(row['margin']) and (row['win_or_lose'] == 1 or row['failed_to_finish_reason'] == 1) else row['margin'], axis=1)
     df['date'] = pd.to_datetime(df['date'])
     df['birth_date'] = pd.to_datetime(df['birth_date'])
     df['current_age'] = (((df['date'] - df['birth_date']).dt.days % 365) // 30).astype(float)
-    df.drop(columns=['failed_to_finish_reason', 'birth_date'], inplace=True)
+    df.drop(columns=['failed_to_finish_reason', 'birth_date', 'win_or_lose'], inplace=True)
     return df
 
 def transforming_data(df):

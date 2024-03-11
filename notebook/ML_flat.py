@@ -11,7 +11,7 @@ file_csv = '~/code/amandamor/output/combined_flat2_csv.csv'
 df_raw_data = pd.read_csv(file_csv)
 
 df_cleaned = clean_data(df_raw_data)
-df_transformed_train,  df_transformed_test = transforming_data(df_cleaned)
+df_transformed_train, df_transformed_val, df_transformed_test = transforming_data(df_cleaned)
 
 df_transformed_train.to_csv('./raw_data/teste_transform.csv')
 models = [LinearRegression(),
