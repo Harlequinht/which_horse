@@ -95,3 +95,4 @@ def transforming_data(df):
     df_test_transformed_with_columns = pd.DataFrame(df_test_transformed, columns=all_feature_names)
 
     return df_train_transformed_with_columns, df_val_transformed_with_columns, df_test_transformed_with_columns
+
