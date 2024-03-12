@@ -25,7 +25,7 @@ def clean_data(df):
             'run_7_race_type', 'run_7_race_class', 'run_7_race_class_normalised', 'run_7_track_type', 'run_7_win_lose',
             'run_7_dsr', 'run_8_raw_post_race_rating_int', 'run_8_raw_post_race_rating_symbol', 'run_8_final_rating_int',
             'run_8_race_type', 'run_8_race_class', 'run_8_race_class_normalised', 'run_8_track_type', 'run_8_win_lose',
-            'run_8_dsr', 'meeting_name', 'country_code', 'distance_unit','distance_furlongs', 'prize_money_currency',
+            'run_8_dsr', 'country_code', 'distance_unit','distance_furlongs', 'prize_money_currency',
             'jockey_allowance_unit', 'handicap_weight_unit', 'jockey_name', 'trainer_name',
             'pre_race_master_rating_symbol', 'post_race_master_rating_symbol', 'post_race_master_rating_int',
             'bet365_odds', 'pmu_odds', 'meeting_id', 'distance_raw_furlongs', 'number', 'horse_id', 'age', 'dam', 'sire',
@@ -70,7 +70,7 @@ def transforming_data(df):
     df.drop(columns=['jockey_id', 'tainer_id', 'margin', 'dslr','rating_oficial',
                      'last_traded_price', 'finish_position', 'event_number',
                      'pre_race_master_rating_int',
-                     'post_time'], axis=1, inplace=True) # for now
+                     'post_time', 'meeting_name'], axis=1, inplace=True) # for now
     df.dropna(inplace=True) #instead of imputer for now
     df_train = df[(df['date'].dt.year != 2022) & (df['date'].dt.year != 2023)]
     df_val = df[df['date'].dt.year == 2022]
