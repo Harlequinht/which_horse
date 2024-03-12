@@ -3,7 +3,7 @@ import requests
 import os
 
 file_csv = '~/code/harlqeuinht/which_horse/raw_data/combined_flat2_csv.csv'
-df = pd.read_csv(file_csv)
+df = pd.read_csv(file_csv) 
 
 def get_weather_data(df):
     '''
