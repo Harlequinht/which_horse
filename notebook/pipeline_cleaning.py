@@ -43,6 +43,7 @@ def clean_data(df):
     df.columns = [col.lower().replace(' ', '_') for col in df.columns]
     return df
 
+
 def transforming_data(df):
     df['date'] = pd.to_datetime(df['date'])
     df.drop(columns=['jockey_id', 'tainer_id', 'margin', 'dslr','rating_oficial',
