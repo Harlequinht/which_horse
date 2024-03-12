@@ -28,22 +28,24 @@ def clean_data(df):
             'run_8_dsr', 'meeting_name', 'country_code', 'distance_unit','distance_furlongs', 'prize_money_currency',
             'jockey_allowance_unit', 'handicap_weight_unit', 'jockey_name', 'trainer_name', 'horse_name',
             'pre_race_master_rating_symbol', 'post_race_master_rating_symbol', 'post_race_master_rating_int',
-            'bet365_odds', 'pmu_odds', 'meeting_id', 'distance_raw_furlongs', 'number', 'horse_id', 'age', 'dam', 'sire'], inplace=True)
+            'bet365_odds', 'pmu_odds', 'meeting_id', 'distance_raw_furlongs', 'number', 'horse_id', 'age', 'dam', 'sire',
+            'Place', 'BSP', 'Date'], inplace=True)
     df['gear'] = df['gear'].apply(lambda x: 0 if pd.isna(x) else 1)
+    df['rating_oficial'] = df['OffR'].fillna(df['official rating'])
+    df['rating_oficial'] = df['official rating'].fillna(df['OffR'])
     df = df[df['barrier'] <= 20]
-    # df['win'] = df['win_or_lose'].apply(lambda x: 1 if x == 1 else 0 if not pd.isna(x) else x)
-    # df['lose'] = df['win_or_lose'].apply(lambda x: 1 if x == 0 else 0 if not pd.isna(x) else x)
     df['failed_to_finish_reason'] = df['failed_to_finish_reason'].apply(lambda x: 0 if pd.isna(x) else 1)
     df['margin'] = df.apply(lambda row: row['distance'] if pd.isna(row['margin']) and (row['win_or_lose'] == 1 or row['failed_to_finish_reason'] == 1) else row['margin'], axis=1)
     df['date'] = pd.to_datetime(df['date'])
     df['birth_date'] = pd.to_datetime(df['birth_date'])
     df['current_age'] = (((df['date'] - df['birth_date']).dt.days % 365) // 30).astype(float)
-    df.drop(columns=['failed_to_finish_reason', 'birth_date'], inplace=True)
+    df.drop(columns=['failed_to_finish_reason', 'birth_date', 'official rating', 'OffR'], inplace=True)
+    df.columns = [col.lower().replace(' ', '_') for col in df.columns]
     return df
 
 def transforming_data(df):
     df['date'] = pd.to_datetime(df['date'])
-    df.drop(columns=['jockey_id', 'tainer_id', 'margin', 'finish_position', 'event_number'], axis=1, inplace=True) # for now
+    df.drop(columns=['jockey_id', 'tainer_id', 'margin', 'rating_oficial','last_traded_price', 'finish_position', 'event_number', 'post_time'], axis=1, inplace=True) # for now
     df.dropna(inplace=True) #instead of imputer for now
     df_train = df[(df['date'].dt.year != 2022) & (df['date'].dt.year != 2023)]
     df_val = df[df['date'].dt.year == 2022]
@@ -55,13 +57,15 @@ def transforming_data(df):
     categorical_col = ['barrier', 'track_condition', 'race_type', 'track_type',
                         'race_class_normalised', 'race_class']
     num_col = ['distance', 'total_prize_money', 'jockey_allowance',
-                'handicap_weight', 'dslr', 'official rating', 'wfa',
+                'handicap_weight', 'dslr',  'wfa',
                 'weight_adjustment', 'betfair_starting_price',
-                'pre_race_master_rating_int', 'starting_price', 'current_age']
+                'pre_race_master_rating_int', 'starting_price', 'current_age',
+                'min_price', 'max_price','runners', '15_mins', '10_mins', '5_mins', '3_mins',
+                '2_mins', '1_min_', ]
 
     categorical_preprocessor = Pipeline([
     ('onehot', OneHotEncoder(handle_unknown='ignore', drop='if_binary'))
-])
+    ])
     numerical_preprocessor = Pipeline([
         ('scaler', StandardScaler())
     ])

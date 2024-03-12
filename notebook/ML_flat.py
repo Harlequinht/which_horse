@@ -7,20 +7,19 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
 from sklearn.model_selection import train_test_split
 
-file_csv = '~/code/amandamor/output/combined_flat2_csv.csv'
+file_csv = '~/code/amandamor/output/merge_dfs.csv'
 df_raw_data = pd.read_csv(file_csv)
 
 df_cleaned = clean_data(df_raw_data)
 df_transformed_train, df_transformed_val, df_transformed_test = transforming_data(df_cleaned)
 
-df_transformed_train.to_csv('./raw_data/teste_transform.csv')
 models = [LinearRegression(),
           Ridge(),
           Lasso(),
           ElasticNet(),
           SGDRegressor(),
           KNeighborsRegressor(),
-          SVR(kernel = "linear"),
+        #   SVR(kernel = "linear"),
           SVR(kernel = "poly", degree = 2),
           SVR(kernel = "poly", degree = 3),
           SVR(kernel = "rbf"),
@@ -46,15 +45,17 @@ models_names = ["linear_regression",
 
 X_train = df_transformed_train.drop(columns=['win_or_lose'])
 X_test = df_transformed_test.drop(columns=['win_or_lose'])
+X_val = df_transformed_val.drop(columns=['win_or_lose'])
 y_train = df_transformed_train['win_or_lose']
 y_test = df_transformed_test['win_or_lose']
+y_val = df_transformed_val['win_or_lose']
 
 different_test_scores = []
 
 for model_name, model in zip(models_names, models):
-
+    print(model_name)
     model.fit(X_train, y_train)
-    different_test_scores.append(model_name, (model.score(X_test, y_test)))
+    different_test_scores.append((model_name, (model.score(X_test, y_test))))
 
 
 comparing_regression_models = pd.DataFrame(list(zip(models_names, different_test_scores)),
