@@ -45,7 +45,9 @@ def clean_data(df):
 
 def transforming_data(df):
     df['date'] = pd.to_datetime(df['date'])
-    df.drop(columns=['jockey_id', 'tainer_id', 'margin', 'rating_oficial','last_traded_price', 'finish_position', 'event_number', 'post_time'], axis=1, inplace=True) # for now
+    df.drop(columns=['jockey_id', 'tainer_id', 'margin', 'dslr','rating_oficial',
+                     'last_traded_price', 'finish_position', 'event_number',
+                     'post_time'], axis=1, inplace=True) # for now
     df.dropna(inplace=True) #instead of imputer for now
     df_train = df[(df['date'].dt.year != 2022) & (df['date'].dt.year != 2023)]
     df_val = df[df['date'].dt.year == 2022]
@@ -57,11 +59,11 @@ def transforming_data(df):
     categorical_col = ['barrier', 'track_condition', 'race_type', 'track_type',
                         'race_class_normalised', 'race_class']
     num_col = ['distance', 'total_prize_money', 'jockey_allowance',
-                'handicap_weight', 'dslr',  'wfa',
+                'handicap_weight',   'wfa',
                 'weight_adjustment', 'betfair_starting_price',
                 'pre_race_master_rating_int', 'starting_price', 'current_age',
-                'min_price', 'max_price','runners', '15_mins', '10_mins', '5_mins', '3_mins',
-                '2_mins', '1_min_', ]
+                'min_price', 'max_price','runners', '15_mins', '10_mins',
+                '5_mins', '3_mins', '2_mins', '1_min_', ]
 
     categorical_preprocessor = Pipeline([
     ('onehot', OneHotEncoder(handle_unknown='ignore', drop='if_binary'))
