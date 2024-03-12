@@ -14,3 +14,5 @@ def custom_loss_function(y_true, y_pred):
     return -0.1 * K.mean(K.sum(gain_loss_vector * y_pred, axis=1))
     #return -1 * tf.reduce_mean(tf.reduce_sum(gain_loss_vector * y_pred, axis=1))
     #[(win_horse * (win_odds - 1)) -> when horse is winning this is what is used -> profit + (1 - win_horse) * -1, ) -> when horse is losing -> loss
+
+# get_custom_objects().update({"custom_loss_function": custom_loss_function})
