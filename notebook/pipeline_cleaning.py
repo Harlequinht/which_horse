@@ -85,7 +85,7 @@ def transforming_data(df):
                 'handicap_weight',   'wfa',
                 'weight_adjustment', 'bsp',
                  'starting_price', 'current_age',
-                'min_price', 'max_price','runners']
+                'min_price', 'max_price','runners', 'temperature_2m_mean', 'precipitation_sum', 'wind_speed_10m_max']
 
     categorical_preprocessor = Pipeline([
     ('onehot', OneHotEncoder(handle_unknown='ignore', drop='if_binary'))
