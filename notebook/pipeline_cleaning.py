@@ -40,6 +40,7 @@ def clean_data(df):
     df['date'] = pd.to_datetime(df['date'])
     df['birth_date'] = pd.to_datetime(df['birth_date'])
     df['current_age'] = (((df['date'] - df['birth_date']).dt.days % 365) // 30).astype(float)
+    df['Place'] = df['Place'].apply(lambda x: 99 if isinstance(x, str) and x.isalpha() else x).astype(float)
     df_sorted = df.sort_values(by=['horse_name', 'date'])
     # df_sorted['dslr'] = df_sorted['dslr'].fillna(df_sorted.groupby('horse_name')['date'].diff().dt.days)
     df_sorted.drop(columns=['failed_to_finish_reason', 'horse_name','birth_date', 'official rating', 'OffR'], inplace=True)
