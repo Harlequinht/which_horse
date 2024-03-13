@@ -85,8 +85,7 @@ def transforming_data(df):
                 'handicap_weight',   'wfa',
                 'weight_adjustment', 'bsp',
                  'starting_price', 'current_age',
-                'min_price', 'max_price','runners', '15_mins', '10_mins',
-                '5_mins', '3_mins', '2_mins', '1_min_', ]
+                'min_price', 'max_price','runners']
 
     categorical_preprocessor = Pipeline([
     ('onehot', OneHotEncoder(handle_unknown='ignore', drop='if_binary'))
@@ -107,15 +106,20 @@ def transforming_data(df):
 
     categorical_feature_names = pipeline.named_transformers_['categorical'].named_steps['onehot'].get_feature_names_out(input_features=categorical_col)
 
-    # Obter os nomes das colunas numéricas
     numerical_feature_names = num_col
     remainder_col_names = [col for col in df_train.columns if col not in (num_col+categorical_col)]
 
-    # Combinar os nomes das colunas categóricas e numéricas
     all_feature_names = list(categorical_feature_names) + numerical_feature_names + remainder_col_names
 
     df_train_transformed_with_columns = pd.DataFrame(df_train_transformed, columns=all_feature_names)
     df_val_transformed_with_columns = pd.DataFrame(df_val_transformed, columns=all_feature_names)
     df_test_transformed_with_columns = pd.DataFrame(df_test_transformed, columns=all_feature_names)
+
+    df_train_transformed_with_columns[numerical_feature_names] = df_train_transformed_with_columns[numerical_feature_names].astype(float)
+    df_train_transformed_with_columns[categorical_feature_names] = df_train_transformed_with_columns[categorical_feature_names].astype(int)
+    df_val_transformed_with_columns[numerical_feature_names] = df_val_transformed_with_columns[numerical_feature_names].astype(float)
+    df_val_transformed_with_columns[categorical_feature_names] = df_val_transformed_with_columns[categorical_feature_names].astype(int)
+    df_test_transformed_with_columns[numerical_feature_names] = df_test_transformed_with_columns[numerical_feature_names].astype(float)
+    df_test_transformed_with_columns[categorical_feature_names] = df_test_transformed_with_columns[categorical_feature_names].astype(int)
 
     return df_train_transformed_with_columns, df_val_transformed_with_columns, df_test_transformed_with_columns
