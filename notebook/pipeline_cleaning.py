@@ -28,7 +28,8 @@ def clean_data(df):
             'run_8_dsr', 'meeting_name', 'country_code', 'distance_unit','distance_furlongs', 'prize_money_currency',
             'jockey_allowance_unit', 'handicap_weight_unit', 'jockey_name', 'trainer_name',
             'pre_race_master_rating_symbol', 'post_race_master_rating_symbol', 'post_race_master_rating_int',
-            'bet365_odds', 'pmu_odds', 'meeting_id', 'distance_raw_furlongs', 'number', 'horse_id', 'age', 'dam', 'sire',
+            'bet365_odds', 'pmu_odds', #'meeting_id','horse_id',
+            'distance_raw_furlongs', 'number',  'age', 'dam', 'sire',
             'betfair_starting_price', 'Date', 'id_lewagon'], inplace=True)
     df['gear'] = df['gear'].apply(lambda x: 0 if pd.isna(x) else 1)
     df['rating_oficial'] = df['OffR'].fillna(df['official rating'])
@@ -39,7 +40,7 @@ def clean_data(df):
     df['margin'] = df.apply(lambda row: row['distance'] if pd.isna(row['margin']) and (row['win_or_lose'] == 1 or row['failed_to_finish_reason'] == 1) else row['margin'], axis=1)
     df['date'] = pd.to_datetime(df['date'])
     df['birth_date'] = pd.to_datetime(df['birth_date'])
-    df['current_age'] = (((df['date'] - df['birth_date']).dt.days % 365) // 30).astype(float)
+    df['current_age'] = ((df['date'] - df['birth_date']).dt.days).astype(float)
     df['Place'] = df['Place'].apply(lambda x: 99 if isinstance(x, str) and x.isalpha() else x).astype(float)
     df_sorted = df.sort_values(by=['horse_name', 'date'])
     # df_sorted['dslr'] = df_sorted['dslr'].fillna(df_sorted.groupby('horse_name')['date'].diff().dt.days)
@@ -145,4 +146,4 @@ def transforming_data(df, jockey_id=False, tainer_id=False):
     df_test_transformed_with_columns[numerical_feature_names] = df_test_transformed_with_columns[numerical_feature_names].astype(float)
     df_test_transformed_with_columns[categorical_feature_names] = df_test_transformed_with_columns[categorical_feature_names].astype(int)
 
-    return df_train_transformed_with_columns, df_val_transformed_with_columns, df_test_transformed_with_columns
+    return df_train_transformed_with_columns, df_val_transformed_with_columns, df_test_transformed_with_columns, pipeline
