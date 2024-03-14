@@ -73,13 +73,35 @@ def clean_data(df):
     print("Cleaned the data")
     return df_sem_nan
 
+def classify_group(win_or_lose, df):
+    quantiles = df['win_or_lose'].quantile([0.2, 0.4, 0.6, 0.8])
+    if win_or_lose <= quantiles[0.2]:
+        return 5
+    elif win_or_lose <= quantiles[0.4]:
+        return 4
+    elif win_or_lose <= quantiles[0.6]:
+        return 3
+    elif win_or_lose <= quantiles[0.8]:
+        return 2
+    else:
+        return 1
 
-def transforming_data(df):
+def transforming_data(df, jockey_id=False, tainer_id=False):
     df['date'] = pd.to_datetime(df['date'])
+    if jockey_id == True:
+        df_grouped = df.groupby(by=['jockey_id']).agg({'win_or_lose': 'sum'}).sort_values(by='win_or_lose', ascending=False)
+        df_grouped['jockey_class'] = df_grouped['win_or_lose'].apply(classify_group, args=(df_grouped,))
+        df_grouped.drop(columns=['win_or_lose'], inplace=True)
+        df = df.merge(df_grouped, how='left', left_on='jockey_id', right_on='jockey_id')
+    if tainer_id == True:
+        df_grouped = df.groupby(by=['tainer_id']).agg({'win_or_lose': 'sum'}).sort_values(by='win_or_lose', ascending=False)
+        df_grouped['tainer_class'] = df_grouped['win_or_lose'].apply(classify_group, args=(df_grouped,))
+        df_grouped.drop(columns=['win_or_lose'], inplace=True)
+        df = df.merge(df_grouped, how='left', left_on='tainer_id', right_on='tainer_id')
     df.drop(columns=['jockey_id', 'tainer_id', 'margin', 'dslr','rating_oficial',
-                     'last_traded_price', 'finish_position', 'event_number',
-                     'pre_race_master_rating_int',
-                     'post_time', 'meeting_name'], axis=1, inplace=True) # for now
+                    'last_traded_price', 'finish_position', 'event_number',
+                    'pre_race_master_rating_int',
+                    'post_time'], axis=1, inplace=True)# for now
     df.dropna(inplace=True) #instead of imputer for now
     df_train = df[(df['date'].dt.year != 2022) & (df['date'].dt.year != 2023)]
     df_val = df[df['date'].dt.year == 2022]
