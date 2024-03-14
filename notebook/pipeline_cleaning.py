@@ -46,13 +46,11 @@ def clean_data(df):
     df_sorted = df.sort_values(by=['horse_name', 'date'])
     # df_sorted['dslr'] = df_sorted['dslr'].fillna(df_sorted.groupby('horse_name')['date'].diff().dt.days)
     df_sorted.drop(columns=['failed_to_finish_reason', 'horse_name','birth_date', 'official rating', 'OffR'], inplace=True)
+
     df_sorted.columns = [col.lower().replace(' ', '_') for col in df_sorted.columns]
-    df_sem_nan.drop(columns=['jockey_id', 'tainer_id', 'margin', 'dslr','rating_oficial',
-                     'last_traded_price', 'finish_position', 'event_number',
-                     'pre_race_master_rating_int',
-                     'post_time', 'meeting_name'], axis=1, inplace=True) # for now
-    df_sem_nan.drop(columns=['date'], axis=1, inplace=True)
+    df_sorted.drop(columns=['date'], axis=1, inplace=True)
     print("step two")
+
     colunas = ['15_mins', '10_mins', '5_mins', '3_mins', '2_mins', '1_min_']
 
     df_sem_nan = df_sorted.dropna(subset=colunas, how='all')
@@ -70,7 +68,10 @@ def clean_data(df):
         df_sem_nan['3_mins'] = df_sem_nan['3_mins'].fillna(df_sem_nan['2_mins'])
         df_sem_nan['2_mins'] = df_sem_nan['2_mins'].fillna(df_sem_nan['1_min_'])
         number_of_nas = df_sem_nan[colunas].isna().sum().sum()
-
+    df_sem_nan.drop(columns=['jockey_id', 'tainer_id', 'margin', 'dslr','rating_oficial',
+                    'last_traded_price', 'finish_position', 'event_number',
+                    'pre_race_master_rating_int',
+                    'post_time', 'meeting_name'], axis=1, inplace=True) # for now
     print("Cleaned the data")
     return df_sem_nan
 
@@ -88,7 +89,6 @@ def classify_group(win_or_lose, df):
         return 1
 
 def transforming_data(df, jockey_id=False, tainer_id=False):
-    df['date'] = pd.to_datetime(df['date'])
     if jockey_id == True:
         df_grouped = df.groupby(by=['jockey_id']).agg({'win_or_lose': 'sum'}).sort_values(by='win_or_lose', ascending=False)
         df_grouped['jockey_class'] = df_grouped['win_or_lose'].apply(classify_group, args=(df_grouped,))
@@ -155,3 +155,6 @@ def transforming_data(df, jockey_id=False, tainer_id=False):
     df_test_transformed_with_columns[categorical_feature_names] = df_test_transformed_with_columns[categorical_feature_names].astype(int)
 
     return df_train_transformed_with_columns, df_val_transformed_with_columns, df_test_transformed_with_columns, pipeline
+
+df = pd.read_csv('../raw_data/final_df.csv')
+clean_data(df)
