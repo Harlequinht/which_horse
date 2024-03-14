@@ -7,7 +7,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
 from sklearn.model_selection import train_test_split
 
-file_csv = '~/code/amandamor/output/merge_dfs.csv'
+file_csv = '../raw_data/merge_dfs.csv'
 df_raw_data = pd.read_csv(file_csv)
 
 df_cleaned = clean_data(df_raw_data)
