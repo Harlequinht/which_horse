@@ -25,11 +25,12 @@ def clean_data(df):
             'run_7_race_type', 'run_7_race_class', 'run_7_race_class_normalised', 'run_7_track_type', 'run_7_win_lose',
             'run_7_dsr', 'run_8_raw_post_race_rating_int', 'run_8_raw_post_race_rating_symbol', 'run_8_final_rating_int',
             'run_8_race_type', 'run_8_race_class', 'run_8_race_class_normalised', 'run_8_track_type', 'run_8_win_lose',
-            'run_8_dsr', 'meeting_name', 'country_code', 'distance_unit','distance_furlongs', 'prize_money_currency',
+            'run_8_dsr', 'country_code', 'distance_unit','distance_furlongs', 'prize_money_currency',
             'jockey_allowance_unit', 'handicap_weight_unit', 'jockey_name', 'trainer_name',
             'pre_race_master_rating_symbol', 'post_race_master_rating_symbol', 'post_race_master_rating_int',
             'bet365_odds', 'pmu_odds', 'meeting_id', 'distance_raw_furlongs', 'number', 'horse_id', 'age', 'dam', 'sire',
             'betfair_starting_price', 'Date', 'id_lewagon'], inplace=True)
+    print("drop done")
     df['gear'] = df['gear'].apply(lambda x: 0 if pd.isna(x) else 1)
     df['rating_oficial'] = df['OffR'].fillna(df['official rating'])
     df['rating_oficial'] = df['official rating'].fillna(df['OffR'])
@@ -45,7 +46,12 @@ def clean_data(df):
     # df_sorted['dslr'] = df_sorted['dslr'].fillna(df_sorted.groupby('horse_name')['date'].diff().dt.days)
     df_sorted.drop(columns=['failed_to_finish_reason', 'horse_name','birth_date', 'official rating', 'OffR'], inplace=True)
     df_sorted.columns = [col.lower().replace(' ', '_') for col in df_sorted.columns]
-
+    df_sem_nan.drop(columns=['jockey_id', 'tainer_id', 'margin', 'dslr','rating_oficial',
+                     'last_traded_price', 'finish_position', 'event_number',
+                     'pre_race_master_rating_int',
+                     'post_time', 'meeting_name'], axis=1, inplace=True) # for now
+    df_sem_nan.drop(columns=['date'], axis=1, inplace=True)
+    print("step two")
     colunas = ['15_mins', '10_mins', '5_mins', '3_mins', '2_mins', '1_min_']
 
     df_sem_nan = df_sorted.dropna(subset=colunas, how='all')
@@ -63,6 +69,8 @@ def clean_data(df):
         df_sem_nan['3_mins'] = df_sem_nan['3_mins'].fillna(df_sem_nan['2_mins'])
         df_sem_nan['2_mins'] = df_sem_nan['2_mins'].fillna(df_sem_nan['1_min_'])
         number_of_nas = df_sem_nan[colunas].isna().sum().sum()
+
+    print("Cleaned the data")
     return df_sem_nan
 
 def classify_group(win_or_lose, df):
