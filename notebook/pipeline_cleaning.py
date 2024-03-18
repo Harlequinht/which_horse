@@ -1,10 +1,7 @@
 import pandas as pd
-from sklearn.pipeline import make_pipeline
-from sklearn.compose import ColumnTransformer, make_column_transformer, make_column_selector
+from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import RobustScaler
 from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
 
@@ -28,7 +25,7 @@ def clean_data(df):
             'run_8_dsr', 'country_code', 'distance_unit','distance_furlongs', 'prize_money_currency',
             'jockey_allowance_unit', 'handicap_weight_unit', 'jockey_name', 'trainer_name',
             'pre_race_master_rating_symbol', 'post_race_master_rating_symbol', 'post_race_master_rating_int',
-            'bet365_odds', 'pmu_odds', #'meeting_id','horse_id',
+            'bet365_odds', 'pmu_odds', 'meeting_name', #'meeting_id','horse_id',
             'distance_raw_furlongs', 'number',  'age', 'dam', 'sire',
             'betfair_starting_price', 'Date', 'id_lewagon'], inplace=True)
     print("drop done")
@@ -47,11 +44,7 @@ def clean_data(df):
     # df_sorted['dslr'] = df_sorted['dslr'].fillna(df_sorted.groupby('horse_name')['date'].diff().dt.days)
     df_sorted.drop(columns=['failed_to_finish_reason', 'horse_name','birth_date', 'official rating', 'OffR'], inplace=True)
     df_sorted.columns = [col.lower().replace(' ', '_') for col in df_sorted.columns]
-    df_sem_nan.drop(columns=['jockey_id', 'tainer_id', 'margin', 'dslr','rating_oficial',
-                     'last_traded_price', 'finish_position', 'event_number',
-                     'pre_race_master_rating_int',
-                     'post_time', 'meeting_name'], axis=1, inplace=True) # for now
-    df_sem_nan.drop(columns=['date'], axis=1, inplace=True)
+
     print("step two")
     colunas = ['15_mins', '10_mins', '5_mins', '3_mins', '2_mins', '1_min_']
 
@@ -100,7 +93,7 @@ def transforming_data(df, jockey_id=False, tainer_id=False):
         df_grouped.drop(columns=['win_or_lose'], inplace=True)
         df = df.merge(df_grouped, how='left', left_on='tainer_id', right_on='tainer_id')
     df.drop(columns=['jockey_id', 'tainer_id', 'margin', 'dslr','rating_oficial',
-                    'last_traded_price', 'finish_position', 'event_number',
+                    'last_traded_price', 'finish_position', #'event_number',
                     'pre_race_master_rating_int',
                     'post_time'], axis=1, inplace=True)# for now
     df.dropna(inplace=True) #instead of imputer for now
